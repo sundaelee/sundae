@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>jum</title>
+ <style>
+ body{
+  margin:20px;
+ }
+ canvas{
+  cursor:crosshair;
+  border:solid 2px #000;
+  margin:15px 0 0 0;
+   -webkit-box-shadow:1px 1px 20px #ccc;
+   -moz-box-shadow:1px 1px 20px #ccc;
+  box-shadow:1px 1px 20px #ccc;
+ }
+ input {
+  border:1px solid #ff0000;
+ }
+ </style>
+ <script>
+  var canvas;
+  var ctx;
+  var flag = false;
+
+  var ready = function(){
+   canvas = document.getElementById("canvas");
+   ctx = canvas.getContext("2d");
+   canvas.onmousedown = drawStart;
+   canvas.onmousemove = drawing;
+   window.onmouseup = drawEnd;
+  }
+
+  var w1 = function(){
+   ctx.lineWidth = 0.1;
+  }
+  var w5 = function(){
+   ctx.lineWidth = 5;
+  }
+  var w15 = function(){
+   ctx.lineWidth = 15;
+  } 
+  var w20= function(){
+   ctx.strokeStyle = '#ff0000';
+}
+ var w25= function(){
+   ctx.strokeStyle = '#00ff00';
+}
+  var w30= function(){
+   ctx.strokeStyle = '#000';
+}
+  var w35= function(){
+   ctx.strokeStyle = '#0000ff';
+}
+  
+ var drawStart = function(event){
+   ctx.beginPath();
+   var xpos = event.target.offsetLeft;
+   var ypos = event.target.offsetTop;
+   ctx.moveTo(event.clientX-xpos, event.clientY-ypos);
+   flag = true;
+  }
+  var drawing = function(event){
+   if(flag) {
+   var xpos = event.target.offsetLeft;
+   var ypos = event.target.offsetTop;
+   ctx.lineCap = 'round'
+   ctx.lineTo(event.clientX-xpos, event.clientY-ypos);
+   ctx.stroke();
+   }
+  }
+  var drawEnd = function(event){
+   flag = false;
+  }
+  var save = function(){
+   window.open(canvas.toDataURL());
+  }
+  var erase = function(){
+   ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  
+ </script>
+</head>
+
+<body onload="ready()">
+ <div>
+  <input type="button" value="초기화" onclick="erase()"></input>
+  |
+  <input type="button" value="펜 굵게" onclick="w15()"></input>
+  <input type="button" value="펜 보통" onclick="w5()"></input>
+  <input type="button" value="펜 얇게" onclick="w1()"></input>
+  |
+    <input type="button" value="빨강" onclick="w20()"></input>
+  <input type="button" value="초록" onclick="w25()"></input>
+  <input type="button" value="검정" onclick="w30()"></input>
+  <input type="button" value="파랑" onclick="w35()"></input>
+
+    <echo>'<a href="https://twitter.com/intent/tweet?text=내 그림입니다&url= 1draw1.html&hashtags=#내간단그림입니다
+       '" target="_blank">트위터에 공유하세요</a>' </echo>
+  
+
+ </div>
+ <canvas id="canvas" width="675" height="500"></canvas>
+</body>
+</html>
